@@ -98,7 +98,25 @@ const init = async () => {
 }
 
 const employeeView = async () => {
-    init();
+    // db.connect.promise().query('select * from employees;').then(data=> console.log(data));
+    db.promise().query(`
+        SELECT
+            e.id,
+            e.first_name,
+            e.last_name, 
+            r.title,
+            d.name,
+            r.salary,
+            CONCAT(e2.first_name+' '+e2.last_name)
+        FROM employees e
+        JOIN roles r
+        ON e.role_id=r.id
+        JOIN department d
+        ON r.department_id=d.id
+        JOIN employees e2
+        ON e.manager_id=e2.id;`
+    ).then((rows)=> console.log(rows))
+    // init();
 }
 
 const departmentView = async () => {
@@ -109,7 +127,9 @@ const roleView = async () => {
   init();
 }
 
-init();
+employeeView();
+
+// init();
 
 // Create a function to write README file
 function writeToFile(fileName, data) {
@@ -125,7 +145,6 @@ function writeToFile(fileName, data) {
 // }
 
 // Function call to initialize app
-init();
 
 // const express = require('express');
 // const db = require('./db/connection');
@@ -157,74 +176,71 @@ init();
 //   });
 // });
 
-// const init = async () => {
-//     try {
-//         let answer = await inquirer.prompt({
-//             name: 'choice',
-//             type: 'list',
-//             message: 'What would you like to do?',
-//             choices: [
-//                 'View Employees',
-//                 'View Departments',
-//                 'View Roles',
-//                 'Add Employees',
-//                 'Add Departments',
-//                 'Add Roles',
-//                 'Update Employee Role',
-//                 'Exit'
-//             ]
-//         });
-//         switch (answer.choice) {
-//             case 'View Employees':
-//                 employeeView();
-//                 break
+function toDo() {
+        let answer = await inquirer.prompt({
+            name: 'choice',
+            type: 'list',
+            message: 'What would you like to do?',
+            choices: [
+                'View Employees',
+                'View Departments',
+                'View Roles',
+                'Add Employees',
+                'Add Departments',
+                'Add Roles',
+                'Update Employee Role',
+                'Exit'
+            ]
+        });
+        switch (answer.choice) {
+            case 'View Employees':
+                employeeView();
+                break
 
-//             case 'View Departments':
-//                 departmentView();
-//                 break
+            case 'View Departments':
+                departmentView();
+                break
 
-//             case 'View Roles':
-//                 roleView();
-//                 break
+            case 'View Roles':
+                roleView();
+                break
 
-//             case 'Add Employees':
-//                 employeeAdd();
-//                 break
+            case 'Add Employees':
+                employeeAdd();
+                break
 
-//             case 'Add Departments':
-//                 departmentAdd();
-//                 break
+            case 'Add Departments':
+                departmentAdd();
+                break
 
-//             case 'Add Roles':
-//                 roleAdd();
-//                 break
+            case 'Add Roles':
+                roleAdd();
+                break
 
-//             case 'Update Employee Role':
-//                 employeeUpdate();
-//                 break
+            case 'Update Employee Role':
+                employeeUpdate();
+                break
 
-//             case 'Exit':
-//                 connection.end();
-//                 break
-//         };
-//     } catch (err) {
-//         console.log(err);
-//         init();
-//     };
-// }
+            case 'Exit':
+                connection.end();
+                break
+        };
+   
+}
 
-// const employeeView = async () => {
+// add case functions here
+const employeeView = async () => {
     
 
-//     init();
-// }
+    init();
+}
 
-// const departmentView = async () => {
+const departmentView = async () => {
     
-// }
+}
 
-// const roleView = async () => {
+const roleView = async () => {
     
-// }
+}
 
-// init();
+init();
