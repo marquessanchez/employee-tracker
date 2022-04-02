@@ -1,5 +1,7 @@
 const express = require('express');
+const cTable = require("console.table");
 const router = express.Router();
+
 const db = require('../../db/connection');
 
 router.put('/api/employees/:id', (req, res) => {
